@@ -695,16 +695,16 @@ const Register = () => {
                 )}
               </div> */}
 
-              <input
+              {/* <input
                 type="text"
                 placeholder={`${t("schoolNumber")}`}
                 {...register("academy_or_school_name", {
                   required: true,
                 })}
                 className="border border-[#EAEFF4] bg-white text-[#2A3547] rounded-[12px] w-full px-[16px] py-[10px]"
-              />
+              /> */}
 
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, translateY: "30px" }}
                 animate={{ opacity: 1, translateY: "0px" }}
                 transition={{ duration: 0.3 }}
@@ -735,7 +735,7 @@ const Register = () => {
                   </svg>
                 </div>
 
-                {/* Dropdown options */}
+
                 {dropdownOpenCourse && (
                   <ul className="absolute w-full -top-[90px] bg-white border border-gray-300 rounded-md shadow-md z-50">
                     {filteredCourses.map((option, index) => (
@@ -749,8 +749,8 @@ const Register = () => {
                     ))}
                   </ul>
                 )}
-              </motion.div>
-
+              </motion.div> */}
+              {/* 
               {(selectedOption === `${t("litsey")}` &&
                 selectedAcademicLyseums) ||
               (selectedOption === `${t("school")}` &&
@@ -786,7 +786,7 @@ const Register = () => {
                     </svg>
                   </div>
 
-                  {/* Dropdown options */}
+
                   {dropdownOpenCourse && (
                     <ul className="absolute w-full -top-[90px] bg-white border border-gray-300 rounded-md shadow-md z-50">
                       {filteredCourses.map((option, index) => (
@@ -801,12 +801,11 @@ const Register = () => {
                     </ul>
                   )}
                 </motion.div>
-              ) : null}
+              ) : null} */}
 
               {/* Ta'lim turi */}
 
-              <div className="relative w-full">
-                {/* Tanlangan ta'lim turi yoki default "Ta'lim turi" */}
+              {/* <div className="relative w-full">
                 <div
                   onClick={() => setOpenTypeOfEducation(!openTypeOfEducation)}
                   className="w-full flex items-center justify-between cursor-pointer px-[16px] py-[10px] border border-[#EAEFF4] rounded-[12px] shadow-sm bg-white"
@@ -848,9 +847,9 @@ const Register = () => {
                     ))}
                   </ul>
                 )}
-              </div>
+              </div> */}
 
-              <UserAgreement />
+              {/* <UserAgreement /> */}
 
               <button
                 className={` ${
