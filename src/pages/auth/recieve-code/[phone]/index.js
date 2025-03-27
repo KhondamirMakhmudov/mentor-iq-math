@@ -76,7 +76,7 @@ const Index = () => {
       toast.error("Invalid credentials");
     } else {
       toast.success("Logged in successfully");
-      await router.push(`/dashboard/student/subjects?phone=${phone}`);
+      await router.push(`/dashboard/teacher/profile?phone=${phone}`);
     }
   };
 

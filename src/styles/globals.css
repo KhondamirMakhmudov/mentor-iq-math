@@ -194,3 +194,7 @@ img {
 .custom-grid .ag-row:hover {
   background-color: #e2e8f0 !important;
 }
+
+.custom-cursor {
+  cursor: url("/icons/cursor.svg"), auto;
+}

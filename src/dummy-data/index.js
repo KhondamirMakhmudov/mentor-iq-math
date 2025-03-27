@@ -80,3 +80,29 @@ export const questions = [
   "Сколько будет 345 + 678 - 123?",
   "Сколько будет 345 + 678 - 123?",
 ];
+
+export const groupsPupil = [
+  {
+    id: "group1",
+    title: "5 группа",
+    items: [
+      { id: "1", name: "Dilnoza Abdullaeva" },
+      { id: "2", name: "Rustam Sayfullaev" },
+      { id: "3", name: "Farhod Hasanov" },
+      { id: "4", name: "Shukhrat Tashmuhamedov" },
+      { id: "5", name: "Orifjon Abdullayev" },
+    ],
+  },
+  {
+    id: "group2",
+    title: "Frontend Developers",
+    items: [
+      { id: "6", name: "Ali Valiyev" },
+      { id: "7", name: "Bekzod Karimov" },
+      { id: "8", name: "Madina Saidova" },
+      { id: "9", name: "Ibrohim Shamsiddinov" },
+      { id: "10", name: "Otabek Murodov" },
+      { id: "11", name: "Orifjon Abdullayev" },
+    ],
+  },
+];

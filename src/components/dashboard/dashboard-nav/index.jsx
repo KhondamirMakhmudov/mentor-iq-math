@@ -18,6 +18,8 @@ import ChatIcon from "@/components/icons/chat";
 import WalletIcon from "@/components/icons/wallet";
 import Image from "next/image";
 import DiagnosticsIcon from "@/components/icons/diagnostics";
+import TeacherPupil from "@/components/icons/pupils";
+import GraduationHatIcon from "@/components/icons/graduation-hat";
 const DashboardNav = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
@@ -61,21 +63,22 @@ const DashboardNav = () => {
           <SidebarTitle>Основное</SidebarTitle>
           <div className="  flex flex-col  justify-between">
             <ul className="my-[12px] space-y-[8px] px-[24px]">
+              {/* Ученики */}
               <li
                 onClick={() => {
                   handleTab("main");
-                  router.push("/dashboard/student/subjects");
+                  router.push("/dashboard/teacher/pupils");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[12px] items-center py-[8px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/subjects"
+                    router.pathname === "/dashboard/teacher/pupils"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:hover:bg-[#252B48] dark:text-white"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/subjects" ? (
+                  {router.pathname === "/dashboard/teacher/pupils" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -83,27 +86,27 @@ const DashboardNav = () => {
                       height={24}
                     />
                   ) : (
-                    <SubjectIcon />
+                    <TeacherPupil />
                   )}
-                  <p className="text-[15px]">Предметы</p>
+                  <p className="text-[15px]">Ученики</p>
                 </div>
               </li>
-
+              {/* Группы */}
               <li
                 onClick={() => {
                   handleTab("my-study");
-                  router.push("/dashboard/student/my-study");
+                  router.push("/dashboard/teacher/my-study");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/my-study"
+                    router.pathname === "/dashboard/teacher/my-study"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:text-white dark:hover:bg-[#252B48]"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/my-study" ? (
+                  {router.pathname === "/dashboard/teacher/my-study" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -111,28 +114,28 @@ const DashboardNav = () => {
                       height={24}
                     />
                   ) : (
-                    <MyStudyIcon />
+                    <GraduationHatIcon />
                   )}
 
-                  <p className="text-[15px] font-medium">Мое обучение</p>
+                  <p className="text-[15px] font-medium">Группы</p>
                 </div>
               </li>
-
+              {/* Самостоятельные */}
               <li
                 onClick={() => {
                   handleTab("individual ");
-                  router.push("/dashboard/student/individual");
+                  router.push("/dashboard/teacher/individual");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/individual"
+                    router.pathname === "/dashboard/teacher/individual"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:text-white dark:hover:bg-[#252B48]"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/individual" ? (
+                  {router.pathname === "/dashboard/teacher/individual" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -146,21 +149,22 @@ const DashboardNav = () => {
                   <p className="text-[15px]">Самостоятельные </p>
                 </div>
               </li>
+              {/* Диагностика */}
               <li
                 onClick={() => {
                   handleTab("diagnostics");
-                  router.push("/dashboard/student/diagnostics");
+                  router.push("/dashboard/teacher/diagnostics");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[10px] items-center py-[10px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/diagnostics"
+                    router.pathname === "/dashboard/teacher/diagnostics"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:text-white dark:hover:bg-[#252B48]"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/diagnostics" ? (
+                  {router.pathname === "/dashboard/teacher/diagnostics" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -191,18 +195,18 @@ const DashboardNav = () => {
               <li
                 onClick={() => {
                   handleTab("profile");
-                  router.push("/dashboard/student/profile");
+                  router.push("/dashboard/teacher/profile");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[12px] items-center py-[8px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/profile"
+                    router.pathname === "/dashboard/teacher/profile"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:hover:bg-[#252B48] dark:text-white"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/profile" ? (
+                  {router.pathname === "/dashboard/teacher/profile" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -220,18 +224,18 @@ const DashboardNav = () => {
               <li
                 onClick={() => {
                   handleTab("chat");
-                  router.push("/dashboard/student/chat");
+                  router.push("/dashboard/teacher/chat");
                 }}
                 className="cursor-pointer"
               >
                 <div
                   className={`flex gap-x-[12px] items-center py-[10px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
-                    router.pathname === "/dashboard/student/chat"
+                    router.pathname === "/dashboard/teacher/chat"
                       ? "bg-[#5D87FF] text-white"
                       : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:text-white dark:hover:bg-[#252B48]"
                   }`}
                 >
-                  {router.pathname === "/dashboard/student/chat" ? (
+                  {router.pathname === "/dashboard/teacher/chat" ? (
                     <Image
                       src={"/icons/chevron-down.svg"}
                       alt="chevron-down"
@@ -245,7 +249,7 @@ const DashboardNav = () => {
                 </div>
               </li>
 
-              <li
+              {/* <li
                 onClick={() => {
                   handleTab("coins");
                   router.push("/dashboard/student/coins");
@@ -298,7 +302,7 @@ const DashboardNav = () => {
                   )}
                   <p className="text-[15px] font-medium">Кошелек</p>
                 </div>
-              </li>
+              </li> */}
             </ul>
 
             <div className="border-t px-[24px] py-[24px] !text-white">

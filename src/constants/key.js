@@ -1,7 +1,7 @@
 export const KEYS = {
   login: "login",
   register: "register",
-  studentProfile: "studentProfile",
+  teacherProfile: "teacherProfile",
   olimpiadaQuizList: "olimpiadaQuizList",
   quizTest: "quizTest",
   submitAnswers: "submitAnswers",
