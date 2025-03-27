@@ -20,14 +20,14 @@ const DndList = ({ title, itemsData }) => {
   };
 
   return (
-    <div className="w-80 bg-white rounded-lg border border-[#E9E9E9] ">
+    <div className="w-[304px] bg-white rounded-lg border border-[#E9E9E9] ">
       <div className="px-[16px] py-[12px] bg-[#F5F6F8] flex justify-between">
         <h2 className="text-[17px] font-medium ">{title}</h2>
         <div className="w-[31px] h-[31px] border border-[#D1D1D6FF] rounded-[8px] flex justify-center items-center">
           12
         </div>
       </div>
-      <div className=" px-[16px] text-black">
+      <div className="px-[16px] text-black">
         <DndContext
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
