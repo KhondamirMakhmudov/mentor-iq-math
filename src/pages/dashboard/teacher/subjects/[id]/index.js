@@ -31,6 +31,19 @@ const Index = () => {
     enabled: !!session?.accessToken,
   });
 
+  const {
+    data: topics,
+    isLoading: isLoadingTopics,
+    isFetching: isFetchingTopics,
+  } = useGetQuery({
+    key: KEYS.topics,
+    url: URLS.topics,
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    enabled: !!session?.accessToken,
+  });
+
   const { mutate: createChapter } = usePostQuery({
     key: "create-chapter",
   });
@@ -40,7 +53,7 @@ const Index = () => {
       {
         url: URLS.createChapter,
         attributes: {
-          subject_id: +id,
+          subject: +id,
           name: newChapter,
         },
         config: {
@@ -72,8 +85,11 @@ const Index = () => {
           <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
             <ul className="border rounded-md w-full">
               {get(chapters, "data", []).map((chapter, index) => (
-                <li key={index} className="p-[12px] pl-[24px]   bg-gray-100 ">
-                  {get(chapter, "name")}
+                <li
+                  key={index}
+                  className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]"
+                >
+                  {index + 1}. {get(chapter, "name")}
                 </li>
               ))}
               {/* <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9] bg-gray-100 ">
@@ -101,7 +117,18 @@ const Index = () => {
             </ul>
           </div>
 
-          <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]"></div>
+          <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
+            <ul>
+              {get(topics, "data", []).map((chapter, index) => (
+                <li
+                  key={index}
+                  className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]"
+                >
+                  <p>{get(chapter, "name")}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 

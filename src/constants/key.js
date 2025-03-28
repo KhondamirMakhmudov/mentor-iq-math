@@ -23,4 +23,5 @@ export const KEYS = {
   teacherProfile: "teacherProfile",
   teacherSubjects: "teacherSubjects",
   chapters: "chapters",
+  topics: "topics",
 };
