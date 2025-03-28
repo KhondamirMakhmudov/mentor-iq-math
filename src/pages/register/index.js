@@ -168,7 +168,6 @@ const Register = () => {
     "email",
     "phone",
     "address",
-    "academy_or_school_name",
     "documentPrefix",
     "documentNumber",
   ]);
@@ -177,8 +176,6 @@ const Register = () => {
     watchedValues.every((value) => value?.trim() !== "") &&
     selectedRegionName &&
     selectedDistrictName &&
-    selectedTypeOfEducation &&
-    selectedOptionCourse &&
     date;
 
   const onSubmit = ({
@@ -186,7 +183,7 @@ const Register = () => {
     email,
     phone,
     address,
-    academy_or_school_name,
+
     documentPrefix,
     documentNumber,
   }) => {
@@ -205,7 +202,6 @@ const Register = () => {
     formData.append("document_type", selectedDocument),
       formData.append("type_of_education", selectedTypeOfEducation),
       formData.append("document", fullDocument),
-      formData.append("academy_or_school_name", academy_or_school_name),
       registerRequest(
         {
           url: URLS.register,

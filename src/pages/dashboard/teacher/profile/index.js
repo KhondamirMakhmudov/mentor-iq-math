@@ -12,12 +12,12 @@ import { get } from "lodash";
 const Index = () => {
   const { data: session } = useSession();
   const {
-    data: studentProfile,
+    data: teacherProfile,
     isLoading,
     isFetching,
   } = useGetQuery({
-    key: KEYS.studentProfile,
-    url: URLS.studentProfile,
+    key: KEYS.teacherProfile,
+    url: URLS.teacherProfile,
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,
     },
@@ -38,7 +38,7 @@ const Index = () => {
             />
 
             <h3 className="text-[17px] font-semibold mt-[16px] mb-[6px]">
-              {get(studentProfile, "data.full_name", "")}
+              {get(teacherProfile, "data.full_name", "")}
             </h3>
             <p className="text-[#8A8A8E] text-[15px]">ID:123023020</p>
           </div>
@@ -50,7 +50,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"phone"}
                     title={"Номер телефона"}
-                    desc={`+${get(studentProfile, "data.phone", "")}`}
+                    desc={`+${get(teacherProfile, "data.phone", "")}`}
                   />
                 </li>
 
@@ -58,7 +58,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"email"}
                     title={"Email адрес"}
-                    desc={get(studentProfile, "data.email", "")}
+                    desc={get(teacherProfile, "data.email", "")}
                   />
                 </li>
 
@@ -66,7 +66,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"calendar"}
                     title={"Дата рождения"}
-                    desc={get(studentProfile, "data.brithday", "")}
+                    desc={get(teacherProfile, "data.brithday", "")}
                   />
                 </li>
 
@@ -74,7 +74,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"region"}
                     title={"Регион"}
-                    desc={get(studentProfile, "data.region", "")}
+                    desc={get(teacherProfile, "data.region", "")}
                   />
                 </li>
 
@@ -82,7 +82,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"region"}
                     title={"Область"}
-                    desc={get(studentProfile, "data.districts", "")}
+                    desc={get(teacherProfile, "data.districts", "")}
                   />
                 </li>
 
@@ -90,7 +90,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"address"}
                     title={"Адрес"}
-                    desc={get(studentProfile, "data.address", "")}
+                    desc={get(teacherProfile, "data.address", "")}
                   />
                 </li>
 
@@ -99,7 +99,7 @@ const Index = () => {
                     detailIcon={"education"}
                     title={"Учреждение"}
                     desc={`${get(
-                      studentProfile,
+                      teacherProfile,
                       "data.academy_or_school_name",
                       ""
                     )}-maktab`}
@@ -110,7 +110,7 @@ const Index = () => {
                   <ProfileDetails
                     detailIcon={"course"}
                     title={"Курс"}
-                    desc={get(studentProfile, "data.class_name", "")}
+                    desc={get(teacherProfile, "data.class_name", "")}
                   />
                 </li>
               </ul>

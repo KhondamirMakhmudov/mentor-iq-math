@@ -61,7 +61,7 @@ const Home = () => {
       toast.error(result?.error);
     } else {
       toast.success("Logged in successfully");
-      router.push("/dashboard/student/subjects");
+      router.push("/dashboard/teacher/profile");
     }
 
     setIsLoading(false);
@@ -229,7 +229,7 @@ const Home = () => {
                   <h1 className="text-2xl font-medium mb-5">{t("welcome")}!</h1>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
-                      onClick={() => router.push("/dashboard/student/subjects")}
+                      onClick={() => router.push("/dashboard/teacher/profile")}
                       className="bg-[#5D87FF] hover:bg-[#4570EA] py-3  w-1/2 text-white rounded-md transition-all"
                     >
                       {t("enter")}

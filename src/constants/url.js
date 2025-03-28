@@ -21,4 +21,7 @@ export const URLS = {
   afterReminder: "/after_test_reminder/",
   schoolClasses: "api/v1/auth/class/class_name_listview/",
   studentSubjects: "/api/v1/func_student/my-subjects/",
+  teacherSubjects: "/api/v1/func_teacher/my-subjects/",
+  chapters: "/api/v1/func_teacher/my-chapters/list/",
+  createChapter: "/api/v1/func_teacher/my-chapters/create/",
 };

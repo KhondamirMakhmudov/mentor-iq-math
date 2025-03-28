@@ -20,4 +20,7 @@ export const KEYS = {
   afterReminder: "afterReminder",
   schoolClasses: "schoolClasses",
   studentSubjects: "studentSubjects",
+  teacherProfile: "teacherProfile",
+  teacherSubjects: "teacherSubjects",
+  chapters: "chapters",
 };

@@ -179,12 +179,6 @@ const DashboardNav = () => {
                 </div>
               </li>
             </ul>
-            {/* <button
-              onClick={handleLogoutClick}
-              className=" text-[#FA896B] py-[8px] px-[24px] w-full] bg-[#FA896B] text-white rounded-md hover:bg-[#FA714B]  transform duration-200"
-            >
-              {t("logout")}
-            </button> */}
           </div>
         </div>
 
@@ -218,6 +212,33 @@ const DashboardNav = () => {
                   )}
 
                   <p className="text-[15px]">Профиль</p>
+                </div>
+              </li>
+              <li
+                onClick={() => {
+                  handleTab("chat");
+                  router.push("/dashboard/teacher/subjects");
+                }}
+                className="cursor-pointer"
+              >
+                <div
+                  className={`flex gap-x-[12px] items-center py-[10px] px-[12px] rounded-[8px] active:scale-90 scale-100 transition-all duration-300 ${
+                    router.pathname === "/dashboard/teacher/subjects"
+                      ? "bg-[#5D87FF] text-white"
+                      : "text-[#5A6A85] dark:bg-[#202936] hover:bg-[#ECF2FF] dark:text-white dark:hover:bg-[#252B48]"
+                  }`}
+                >
+                  {router.pathname === "/dashboard/teacher/subjects" ? (
+                    <Image
+                      src={"/icons/chevron-down.svg"}
+                      alt="chevron-down"
+                      width={24}
+                      height={24}
+                    />
+                  ) : (
+                    <SubjectIcon />
+                  )}
+                  <p className="text-[15px]">Предметы </p>
                 </div>
               </li>
 
