@@ -25,6 +25,7 @@ const Index = () => {
   const searchParams = useSearchParams();
   const phone = searchParams.get("phone");
   const [showModal, setShowModal] = useState(!!phone);
+
   const [tab, setTab] = useState("card");
   const [groups, setGroups] = useState(groupsPupil);
   const [search, setSearch] = useState("");

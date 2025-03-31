@@ -25,4 +25,6 @@ export const URLS = {
   chapters: "/api/v1/func_teacher/my-chapters/list/",
   createChapter: "/api/v1/func_teacher/my-chapters/create/",
   topics: "/api/v1/func_teacher/my-topics/list/",
+  createTopic: "/api/v1/func_teacher/my-topics/create/",
+  questionList: "/api/v1/func_teacher/my-questions/",
 };

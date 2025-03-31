@@ -6,18 +6,28 @@ import { useSession } from "next-auth/react";
 import { get } from "lodash";
 import Button from "@/components/button";
 import usePostQuery from "@/hooks/api/usePostQuery";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SimpleModal from "@/components/modal/simple-modal";
 import Image from "next/image";
 import Input from "@/components/input";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { CKEditor } from "ckeditor4-react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [dataChapter, setDataChapter] = useState([]);
   const { data: session } = useSession();
   const [newChapter, setNewChapter] = useState("");
+  const [topicName, setTopicName] = useState("");
+  const [content, setContent] = useState("");
+  const [videoLink, setVideoLink] = useState("");
   const [openChapterModal, setOpenChapterModal] = useState(false);
+  const [openTopicsModal, setOpenTopicsModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const {
     data: chapters,
     isLoading,
@@ -36,17 +46,24 @@ const Index = () => {
     isLoading: isLoadingTopics,
     isFetching: isFetchingTopics,
   } = useGetQuery({
-    key: KEYS.topics,
-    url: URLS.topics,
+    key: [KEYS.topics, selectedId],
+    url: selectedId ? `${URLS.topics}${selectedId}/` : null,
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,
     },
-    enabled: !!session?.accessToken,
+    enabled: !!selectedId && !!session?.accessToken,
   });
-
+  // Bob yaratish
   const { mutate: createChapter } = usePostQuery({
     key: "create-chapter",
   });
+
+  useEffect(() => {
+    const data = get(chapters, "data", []);
+    if (get(chapters, "data", [])) {
+      setDataChapter(get(chapters, "data", []));
+    }
+  }, [get(chapters, "data", [])]);
 
   const onSubmitCreateChapter = () => {
     createChapter(
@@ -63,7 +80,8 @@ const Index = () => {
       {
         onSuccess: () => {
           setOpenChapterModal(false);
-          toast.success("Muvaqqiyatli yaratildi");
+          setNewChapter("");
+          toast.success("Bob muvaqqiyatli yaratildi");
         },
         onError: (error) => {
           console.log("Full error response:");
@@ -73,62 +91,124 @@ const Index = () => {
       }
     );
   };
+
+  // Mavzu yaratish
+
+  const { mutate: createTopic } = usePostQuery({
+    key: "create-topic",
+  });
+
+  const onSubmitCreateTopic = () => {
+    createTopic(
+      {
+        url: URLS.createTopic,
+        attributes: {
+          chapter: selectedId,
+          name: topicName,
+          video_url: videoLink,
+          content: content,
+        },
+        config: {
+          headers: { Authorization: `Bearer ${session?.accessToken}` },
+        },
+      },
+      {
+        onSuccess: () => {
+          setOpenTopicsModal(false); // Modalni yopish
+          setTopicName(""); // Inputlarni tozalash
+          setVideoLink("");
+          setContent("");
+
+          toast.success("Mavzu muvaqqiyatli yaratildi");
+        },
+        onError: (error) => {
+          toast.error(error.response?.data.error);
+        },
+      }
+    );
+  };
+
   return (
     <Dashboard headerTitle={"Математика"}>
       <div className="font-sf">
         <div className="flex justify-between mb-2">
           <h2 className="font-semibold text-[22px] mb-[18px]">Темы/разделы</h2>
-          <Button onclick={() => setOpenChapterModal(true)}>Создать</Button>
+          <Button onclick={() => setOpenChapterModal(true)}>
+            Cоздать главу
+          </Button>
         </div>
 
         <div className="grid grid-cols-12 gap-[24px]">
           <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
-            <ul className="border rounded-md w-full">
-              {get(chapters, "data", []).map((chapter, index) => (
-                <li
-                  key={index}
-                  className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]"
-                >
-                  {index + 1}. {get(chapter, "name")}
-                </li>
-              ))}
-              {/* <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9] bg-gray-100 ">
-                I-глава. Натуральные числа и ноль
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                II-глава. Делимость натуральных чисел
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                III-глава. Дробные числа и действия над ними
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                IV-глава. Десятичные дроби. Применение операций с десятичными...
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                V-глава. Множество
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                VI-глава. Процент
-              </li>
-              <li className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]">
-                VII-глава. Углы. Многоугольники
-              </li>
-              <li className="p-[12px] pl-[24px]">VIII-глава. Диаграмма</li> */}
-            </ul>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-b-[#E9E9E9]">
+                  <th className="p-[12px] pl-[24px] text-left">#</th>
+                  <th className="p-[12px] text-left">Название</th>
+                  <th className="p-[12px] text-right">Действие</th>
+                </tr>
+              </thead>
+              <tbody>
+                {get(chapters, "data", []).map((chapter, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-b-[#E9E9E9] cursor-pointer"
+                  >
+                    <td className="p-[12px] pl-[24px]">{index + 1}</td>
+                    <td
+                      className="p-[12px]"
+                      onClick={() => setSelectedId(get(chapter, "id"))}
+                    >
+                      {get(chapter, "name")}
+                    </td>
+                    <td className="p-[12px] text-right">
+                      <Button
+                        onclick={() => {
+                          setOpenTopicsModal(true);
+                          setSelectedId(get(chapter, "id"));
+                        }}
+                        py="py-[8px] text-sm"
+                      >
+                        Создать тему
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
-            <ul>
-              {get(topics, "data", []).map((chapter, index) => (
-                <li
-                  key={index}
-                  className="p-[12px] pl-[24px] border-b border-b-[#E9E9E9]"
-                >
-                  <p>{get(chapter, "name")}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {selectedId && (
+            <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-b-[#E9E9E9]">
+                    <th className="p-[12px] pl-[24px] text-left">#</th>
+                    <th className="p-[12px] text-left">Название</th>
+                    <th className="p-[12px] text-right">Действие</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {get(topics, "data", []).map((topic, index) => (
+                    <tr key={index} className="border-b border-b-[#E9E9E9]">
+                      <td className="p-[12px] pl-[24px]">{index + 1}</td>
+                      <td className="p-[12px] w-1/2">{get(topic, "name")}</td>
+                      <td className="p-[12px] text-right">
+                        <Link
+                          href={`/dashboard/teacher/subjects/${id}/${selectedId}/${get(
+                            topic,
+                            "id"
+                          )}`}
+                        >
+                          <Button py="py-[8px] text-sm">Перейти</Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 
@@ -168,6 +248,91 @@ const Index = () => {
             </Button>
           </div>
         </SimpleModal>
+      )}
+
+      {openTopicsModal && (
+        <AnimatePresence>
+          <motion.div
+            className={`fixed inset-0 right-0 flex items-center justify-end z-50 transition-all bg-black bg-opacity-70 duration-300 `}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-bl-[16px]  rounded-tl-[16px] right-0 shadow-lg w-1/2 h-full font-sf"
+            >
+              <div className="flex justify-between px-[16px] py-[18px]">
+                <h3 className="text-[19px] font-semibold">Mavzu yaratish</h3>
+                <button
+                  onClick={() => setOpenTopicsModal(false)}
+                  className="rounded"
+                >
+                  <Image
+                    src={"/icons/close.svg"}
+                    alt="circle"
+                    width={24}
+                    height={24}
+                  />
+                </button>
+              </div>
+
+              <div className="bg-[#E9E9E9] w-full h-[1px] p-0"></div>
+
+              <div className="px-[16px] mt-[18px] mb-[9px]">
+                <label>Mavzu nomi</label>
+                <Input
+                  value={topicName}
+                  onChange={(e) => setTopicName(e.target.value)}
+                  placeholder={"Mavzu nomini kiriting"}
+                />
+              </div>
+
+              <div className="px-[16px] mt-[18px] mb-[9px]">
+                <label>Video link</label>
+                <Input
+                  value={videoLink}
+                  onChange={(e) => setVideoLink(e.target.value)}
+                  placeholder={"Video linkni nomini kiriting"}
+                />
+              </div>
+
+              <div className="px-[16px]">
+                <h3 className="text-[16px] font-normal mb-[10px]">
+                  Mavzu kontenti
+                </h3>
+                <CKEditor
+                  initData={content}
+                  onChange={(event) => setContent(event.editor.getData())}
+                  config={{
+                    toolbar: [
+                      ["Bold", "Italic", "Strike"], // Text styling
+                      [
+                        "BulletedList",
+                        "NumberedList",
+                        "Outdent",
+                        "Indent",
+                        "Blockquote",
+                      ], // Lists and indentation
+                      ["Image", "Table", "SpecialChar"], // Media and special characters
+                      ["Link", "Unlink"], // Links
+                      ["Maximize", "Source"], // Fullscreen & Source mode
+                      ["Undo", "Redo"], // Undo/Redo
+                    ],
+                  }}
+                />
+              </div>
+
+              <div className="bg-[#E9E9E9] w-full h-[1px] p-0"></div>
+
+              <div className="px-[16px] py-[12px] flex items-center justify-end">
+                <Button onclick={onSubmitCreateTopic} classname={"!py-2"}>
+                  Yakunlash
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
       )}
     </Dashboard>
   );
