@@ -34,7 +34,7 @@ const Index = () => {
     isFetching,
   } = useGetQuery({
     key: KEYS.chapters,
-    url: URLS.chapters,
+    url: `${URLS.chapters}${id}/`,
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,
     },

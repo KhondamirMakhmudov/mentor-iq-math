@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Input from "@/components/input";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { CKEditor } from "ckeditor4-react";
+import toast from "react-hot-toast";
 
 const Index = () => {
   const { data: session } = useSession();
@@ -24,9 +25,22 @@ const Index = () => {
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [questionLevel, setQuestionLevel] = useState("");
+  const [choices, setChoices] = useState({
+    A: "",
+    B: "",
+    C: "",
+    D: "",
+  });
 
   const handleChange = (e) => {
     setQuestionType(e.target.value);
+  };
+
+  const handleChoiceChange = (e, option) => {
+    setChoices((prev) => ({
+      ...prev,
+      [option]: e.target.value,
+    }));
   };
 
   const {
@@ -62,20 +76,20 @@ const Index = () => {
   // Mavzu yaratish
 
   const { mutate: createQuestion } = usePostQuery({
-    key: "create-topic",
+    key: "create-question",
   });
 
   const onSubmitCreateQuestion = () => {
     createQuestion(
       {
-        url: URLS.createTopic,
+        url: URLS.createQuestion,
         attributes: {
           topic: topicId,
           question_text: questionText,
           question_type: questionType,
           correct_answer: correctAnswer,
           level: questionLevel,
-          choices: null,
+          choices: choices,
         },
         config: {
           headers: { Authorization: `Bearer ${session?.accessToken}` },
@@ -150,7 +164,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="col-span-6 space-y-[12px] border border-[#E9E9E9] rounded-[12px]  py-[12px]">
+        <div className="col-span-6 space-y-[12px] border border-[#E9E9E9] rounded-[12px] ">
           <table className="w-full">
             <thead>
               <tr className="border-b border-b-[#E9E9E9]">
@@ -190,7 +204,7 @@ const Index = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-bl-[16px]  rounded-tl-[16px] right-0 shadow-lg w-1/2 h-full font-sf"
+              className="bg-white rounded-bl-[16px]  rounded-tl-[16px] right-0 shadow-lg w-1/2 h-screen overflow-y-auto font-sf"
             >
               <div className="flex justify-between px-[16px] py-[18px]">
                 <h3 className="text-[19px] font-semibold">Savol yaratish</h3>
@@ -270,13 +284,13 @@ const Index = () => {
                     <select
                       value={questionType}
                       onChange={handleChange}
-                      className="border border-[#E9E9E9] rounded-[8px] w-full py-[10px] px-[16px] rounded"
+                      className="border border-[#E9E9E9] rounded-[8px] w-full py-[10px] px-[16px] "
                     >
                       <option value="" disabled>
                         Tipni tanlang
                       </option>
                       <option value="text">Matnli javob</option>
-                      <option value="choices">Variant tanlash</option>
+                      <option value="choice">Variant tanlash</option>
                       <option value="image">Rasmli variant</option>
                     </select>
                   </div>
@@ -288,7 +302,7 @@ const Index = () => {
                     <select
                       value={questionLevel}
                       onChange={(e) => setQuestionLevel(e.target.value)}
-                      className="border border-[#E9E9E9] rounded-[8px] w-full py-[10px] px-[16px] rounded"
+                      className="border border-[#E9E9E9] rounded-[8px] w-full py-[10px] px-[16px] "
                     >
                       <option value="" disabled>
                         ----------
@@ -299,6 +313,23 @@ const Index = () => {
                     </select>
                   </div>
                 </div>
+
+                {questionType === "choice" && (
+                  <div className="mt-4 px-[16px] space-y-2">
+                    {["A", "B", "C", "D"].map((option) => (
+                      <div key={option} className="flex items-center space-x-2">
+                        <span className="font-medium">{option}:</span>
+                        <input
+                          type="text"
+                          value={choices[option]}
+                          onChange={(e) => handleChoiceChange(e, option)}
+                          className="border border-[#E9E9E9] rounded-[8px] py-[8px] px-[12px] w-full"
+                          placeholder={`${option} javobini kiriting`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="bg-[#E9E9E9] w-full h-[1px] p-0"></div>

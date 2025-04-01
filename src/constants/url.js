@@ -27,4 +27,5 @@ export const URLS = {
   topics: "/api/v1/func_teacher/my-topics/list/",
   createTopic: "/api/v1/func_teacher/my-topics/create/",
   questionList: "/api/v1/func_teacher/my-questions/",
+  createQuestion: "/api/v1/func_teacher/my-questions/create/",
 };
