@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { CKEditor } from "ckeditor4-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -27,6 +28,7 @@ const Index = () => {
   const [openChapterModal, setOpenChapterModal] = useState(false);
   const [openTopicsModal, setOpenTopicsModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const queryClient = useQueryClient();
 
   const {
     data: chapters,
@@ -82,6 +84,7 @@ const Index = () => {
           setOpenChapterModal(false);
           setNewChapter("");
           toast.success("Bob muvaqqiyatli yaratildi");
+          queryClient.invalidateQueries([KEYS.chapters]);
         },
         onError: (error) => {
           console.log("Full error response:");
@@ -118,7 +121,7 @@ const Index = () => {
           setTopicName(""); // Inputlarni tozalash
           setVideoLink("");
           setContent("");
-
+          queryClient.invalidateQueries([KEYS.topics]); // Queryni yangilash
           toast.success("Mavzu muvaqqiyatli yaratildi");
         },
         onError: (error) => {
