@@ -34,10 +34,10 @@ const Index = () => {
         >
           <p className="text-[17px] font-medium">Ваши баллы</p>
 
-          <div className="flex items-center gap-x-[10px] mt-[8px] mb-[20px]">
+          {/* <div className="flex items-center gap-x-[10px] mt-[8px] mb-[20px]">
             <CoinsIcon color="white" />
             <p className="text-[26px] font-semibold">808 баллов</p>
-          </div>
+          </div> */}
 
           <p className="text-[17px] text-[#DCDCDD] w-3/5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

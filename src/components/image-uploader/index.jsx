@@ -33,7 +33,7 @@ export default function ImageUploader() {
 
   return (
     <div
-      className="w-full h-[250px] border border-[#E9E9E9] border-gray-300 rounded-xl flex flex-col items-center justify-center text-center p-4 cursor-pointer bg-white"
+      className="w-full h-[250px] border border-[#E9E9E9]  rounded-xl flex flex-col items-center justify-center text-center p-4 cursor-pointer bg-white"
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >

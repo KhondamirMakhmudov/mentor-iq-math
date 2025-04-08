@@ -14,8 +14,10 @@ import Input from "@/components/input";
 import usePostQuery from "@/hooks/api/usePostQuery";
 import { CKEditor } from "ckeditor4-react";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Index = () => {
+  const queryClient = useQueryClient();
   const { data: session } = useSession();
   const router = useRouter();
   const { chapterId, topicId } = router.query;
@@ -32,15 +34,26 @@ const Index = () => {
     D: "",
   });
 
+  const [images, setImages] = useState({
+    A: null,
+    B: null,
+    C: null,
+    D: null,
+  });
+
   const handleChange = (e) => {
     setQuestionType(e.target.value);
   };
 
-  const handleChoiceChange = (e, option) => {
-    setChoices((prev) => ({
-      ...prev,
-      [option]: e.target.value,
-    }));
+  const handleImageChange = (e, letter) => {
+    const file = e.target.files[0];
+    console.log("FILE", file);
+    if (file) {
+      setImages((prev) => ({
+        ...prev,
+        [letter]: file,
+      }));
+    }
   };
 
   const {
@@ -80,17 +93,30 @@ const Index = () => {
   });
 
   const onSubmitCreateQuestion = () => {
+    const formData = new FormData();
+    formData.append("topic", topicId);
+    formData.append("question_text", questionText);
+    formData.append("question_type", questionType);
+    formData.append("correct_answer", correctAnswer);
+    formData.append("level", questionLevel);
+    formData.append("choices", JSON.stringify(choices));
+
+    if (questionType === "image_choice") {
+      Object.entries(images).forEach(([letter, file], index) => {
+        if (file) {
+          formData.append(`images[${index}].choice_letter`, letter);
+          formData.append(`images[${index}].image`, file);
+        }
+      });
+    }
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
     createQuestion(
       {
         url: URLS.createQuestion,
-        attributes: {
-          topic: topicId,
-          question_text: questionText,
-          question_type: questionType,
-          correct_answer: correctAnswer,
-          level: questionLevel,
-          choices: choices,
-        },
+        attributes: formData,
         config: {
           headers: { Authorization: `Bearer ${session?.accessToken}` },
         },
@@ -99,7 +125,7 @@ const Index = () => {
         onSuccess: () => {
           setOpenTestModal(false); // Modalni yopish
           setQuestionText(""); // Inputlarni tozalash
-
+          queryClient.invalidateQueries([KEYS.questionList]);
           toast.success("Mavzu muvaqqiyatli yaratildi");
         },
         onError: (error) => {
@@ -291,7 +317,7 @@ const Index = () => {
                       </option>
                       <option value="text">Matnli javob</option>
                       <option value="choice">Variant tanlash</option>
-                      <option value="image">Rasmli variant</option>
+                      <option value="image_choice">Rasmli variant</option>
                     </select>
                   </div>
 
@@ -326,6 +352,22 @@ const Index = () => {
                           className="border border-[#E9E9E9] rounded-[8px] py-[8px] px-[12px] w-full"
                           placeholder={`${option} javobini kiriting`}
                         />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {questionType === "image_choice" && (
+                  <div className="mt-4 px-[16px] space-y-2">
+                    {["A", "B", "C", "D"].map((letter) => (
+                      <div key={letter}>
+                        <label>{letter} varianti:</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageChange(e, letter)}
+                        />
+                        {images[letter] && <span>{images[letter].name}</span>}
                       </div>
                     ))}
                   </div>
