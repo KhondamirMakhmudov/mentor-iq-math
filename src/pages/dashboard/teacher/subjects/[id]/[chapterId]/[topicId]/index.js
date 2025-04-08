@@ -202,7 +202,7 @@ const Index = () => {
             </thead>
             <tbody>
               {get(questionList, "data", []).map((topic, index) => (
-                <tr key={index} className="border-b border-b-[#E9E9E9]">
+                <tr key={index} className=" ">
                   <td className="p-[12px] pl-[24px]">{index + 1}</td>
                   <td className="p-[12px] text-center">
                     {parse(get(topic, "question_text") || "")}

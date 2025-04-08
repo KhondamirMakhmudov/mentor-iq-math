@@ -155,7 +155,7 @@ const Index = () => {
                 {get(chapters, "data", []).map((chapter, index) => (
                   <tr
                     key={index}
-                    className="border-b border-b-[#E9E9E9] cursor-pointer"
+                    className="border-t border-t-[#E9E9E9] cursor-pointer"
                   >
                     <td className="p-[12px] pl-[24px]">{index + 1}</td>
                     <td
@@ -193,7 +193,7 @@ const Index = () => {
                 </thead>
                 <tbody>
                   {get(topics, "data", []).map((topic, index) => (
-                    <tr key={index} className="border-b border-b-[#E9E9E9]">
+                    <tr key={index} className="border-t border-t-[#E9E9E9]">
                       <td className="p-[12px] pl-[24px]">{index + 1}</td>
                       <td className="p-[12px] w-1/2">{get(topic, "name")}</td>
                       <td className="p-[12px] text-right">
