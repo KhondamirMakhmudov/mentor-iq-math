@@ -24,8 +24,12 @@ export const URLS = {
   teacherSubjects: "/api/v1/func_teacher/my-subjects/",
   chapters: "/api/v1/func_teacher/my-chapters/list/",
   createChapter: "/api/v1/func_teacher/my-chapters/create/",
+  updateChapter: "/api/v1/func_teacher/my-chapters/list/",
+  deleteChapter: "api/v1/func_teacher/my-chapters/list/",
   topics: "/api/v1/func_teacher/my-topics/list/",
   createTopic: "/api/v1/func_teacher/my-topics/create/",
+  updateTopic: "/api/v1/func_teacher/my-topics/list/",
+  deleteTopic: "api/v1/func_teacher/my-topics/list/",
   questionList: "/api/v1/func_teacher/my-questions/",
   createQuestion: "/api/v1/func_teacher/my-questions/create/",
 };
