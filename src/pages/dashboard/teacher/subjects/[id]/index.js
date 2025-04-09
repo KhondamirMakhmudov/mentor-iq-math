@@ -266,6 +266,7 @@ const Index = () => {
                         <Button
                           onclick={() => {
                             setOpenTopicsModal(true);
+                            setModalTypeOfChapter("create");
                             setSelectedId(get(chapter, "id"));
                           }}
                           py="py-[8px] text-sm"
@@ -508,7 +509,7 @@ const Index = () => {
                       ? onSubmitCreateTopic
                       : modalTypeOfTopic === "update"
                       ? onSubmitUpdateTopic
-                      : onSubmitDeleteChapter
+                      : onSubmitDeleteTopic
                   }
                   classname={"!py-2"}
                 >
