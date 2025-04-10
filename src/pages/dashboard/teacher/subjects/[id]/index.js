@@ -22,6 +22,7 @@ import usePutQuery from "@/hooks/api/usePutQuery";
 import useDeleteQuery from "@/hooks/api/useDeleteQuery";
 import { config } from "@/config";
 import { set } from "react-hook-form";
+import parse from "html-react-parser";
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -36,6 +37,7 @@ const Index = () => {
   const [openChapterModal, setOpenChapterModal] = useState(false);
   const [openTopicsModal, setOpenTopicsModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
   const queryClient = useQueryClient();
 
   const {
@@ -191,7 +193,7 @@ const Index = () => {
   const onSubmitUpdateTopic = () => {
     updateTopic(
       {
-        url: `${URLS.updateTopic}${selectedId}/`,
+        url: `${URLS.updateTopic}${selectedTopic?.id}/`,
         attributes: {
           chapter: selectedId,
           name: topicName,
@@ -228,6 +230,8 @@ const Index = () => {
     setOpenTopicsModal(false);
   };
 
+  console.log(selectedTopic);
+
   return (
     <Dashboard headerTitle={"Математика"}>
       <div className="font-sf">
@@ -239,7 +243,7 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-12 gap-[24px]">
-          <div className="col-span-6 border border-[#E9E9E9] rounded-[12px]">
+          <div className="col-span-6 self-start border border-[#E9E9E9] rounded-[12px]">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-b-[#E9E9E9]">
@@ -321,7 +325,7 @@ const Index = () => {
                           <Button
                             onclick={() => {
                               setOpenTopicsModal(true);
-                              setSelectedId(get(topic, "id"));
+                              setSelectedTopic(topic);
                               setModalTypeOfTopic("update");
                             }}
                             py="py-[8px] px-[8px] block text-sm bg-[#FF9500FF] border"
@@ -331,7 +335,6 @@ const Index = () => {
                           <Button
                             onclick={() => {
                               setOpenTopicsModal(true);
-                              setSelectedId(get(topic, "id"));
                               setModalTypeOfTopic("delete");
                             }}
                             classname="py-[8px] px-[8px] text-sm bg-[#FF3B30]"
@@ -459,7 +462,13 @@ const Index = () => {
               <div className="px-[16px] mt-[18px] mb-[9px]">
                 <label>Mavzu nomi</label>
                 <Input
-                  value={topicName}
+                  value={
+                    modalTypeOfTopic === "create"
+                      ? topicName
+                      : modalTypeOfTopic === "update"
+                      ? selectedTopic?.name
+                      : ""
+                  }
                   onChange={(e) => setTopicName(e.target.value)}
                   placeholder={"Mavzu nomini kiriting"}
                 />
@@ -468,7 +477,13 @@ const Index = () => {
               <div className="px-[16px] mt-[18px] mb-[9px]">
                 <label>Video link</label>
                 <Input
-                  value={videoLink}
+                  value={
+                    modalTypeOfTopic === "create"
+                      ? videoLink
+                      : modalTypeOfTopic === "update"
+                      ? selectedTopic?.video_url
+                      : ""
+                  }
                   onChange={(e) => setVideoLink(e.target.value)}
                   placeholder={"Video linkni nomini kiriting"}
                 />
@@ -479,7 +494,13 @@ const Index = () => {
                   Mavzu kontenti
                 </h3>
                 <CKEditor
-                  initData={content}
+                  initData={
+                    modalTypeOfTopic === "create"
+                      ? content
+                      : modalTypeOfTopic === "update"
+                      ? parse(selectedTopic?.content)
+                      : ""
+                  }
                   onChange={(event) => setContent(event.editor.getData())}
                   config={{
                     toolbar: [
@@ -509,7 +530,7 @@ const Index = () => {
                       ? onSubmitCreateTopic
                       : modalTypeOfTopic === "update"
                       ? onSubmitUpdateTopic
-                      : onSubmitDeleteTopic
+                      : ""
                   }
                   classname={"!py-2"}
                 >
