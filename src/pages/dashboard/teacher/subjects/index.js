@@ -40,6 +40,7 @@ const Index = () => {
         <div className="mt-[24px] flex gap-x-[24px]">
           {get(subjects, "data", []).map((item, index) => (
             <div
+              key={index}
               className="space-y-[12px] w-[95px] cursor-pointer group flex flex-col"
               onClick={() =>
                 router.push(`/dashboard/teacher/subjects/${get(item, "id")}`)

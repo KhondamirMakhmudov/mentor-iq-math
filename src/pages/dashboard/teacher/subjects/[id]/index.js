@@ -22,7 +22,6 @@ import usePutQuery from "@/hooks/api/usePutQuery";
 import useDeleteQuery from "@/hooks/api/useDeleteQuery";
 import { config } from "@/config";
 import { set } from "react-hook-form";
-import parse from "html-react-parser";
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -211,7 +210,7 @@ const Index = () => {
           setVideoLink("");
           setContent("");
           queryClient.invalidateQueries([KEYS.topics]); // Queryni yangilash
-          toast.success("Mavzu muvaqqiyatli yaratildi");
+          toast.success("Mavzu muvaqqiyatli o'zgartirildi");
         },
         onError: (error) => {
           toast.error(error.response?.data.error);
@@ -225,12 +224,10 @@ const Index = () => {
     listKeyId: "delete-topic",
   });
 
-  const onSubmitDeleteTopic = () => {
-    deleteTopic(`${config.API_URL}${URLS.deleteChapter}${selectedId}/`);
+  const onSubmitDeleteTopic = (id) => {
+    deleteTopic(`${config.API_URL}${URLS.deleteTopic}${id}/`);
     setOpenTopicsModal(false);
   };
-
-  console.log(selectedTopic);
 
   return (
     <Dashboard headerTitle={"Математика"}>
@@ -335,7 +332,9 @@ const Index = () => {
                           <Button
                             onclick={() => {
                               setOpenTopicsModal(true);
+
                               setModalTypeOfTopic("delete");
+                              onSubmitDeleteTopic(get(topic, "id"));
                             }}
                             classname="py-[8px] px-[8px] text-sm bg-[#FF3B30]"
                           >
@@ -462,13 +461,7 @@ const Index = () => {
               <div className="px-[16px] mt-[18px] mb-[9px]">
                 <label>Mavzu nomi</label>
                 <Input
-                  value={
-                    modalTypeOfTopic === "create"
-                      ? topicName
-                      : modalTypeOfTopic === "update"
-                      ? selectedTopic?.name
-                      : ""
-                  }
+                  value={topicName}
                   onChange={(e) => setTopicName(e.target.value)}
                   placeholder={"Mavzu nomini kiriting"}
                 />
@@ -477,13 +470,7 @@ const Index = () => {
               <div className="px-[16px] mt-[18px] mb-[9px]">
                 <label>Video link</label>
                 <Input
-                  value={
-                    modalTypeOfTopic === "create"
-                      ? videoLink
-                      : modalTypeOfTopic === "update"
-                      ? selectedTopic?.video_url
-                      : ""
-                  }
+                  value={videoLink}
                   onChange={(e) => setVideoLink(e.target.value)}
                   placeholder={"Video linkni nomini kiriting"}
                 />
@@ -494,13 +481,7 @@ const Index = () => {
                   Mavzu kontenti
                 </h3>
                 <CKEditor
-                  initData={
-                    modalTypeOfTopic === "create"
-                      ? content
-                      : modalTypeOfTopic === "update"
-                      ? parse(selectedTopic?.content)
-                      : ""
-                  }
+                  initData={content}
                   onChange={(event) => setContent(event.editor.getData())}
                   config={{
                     toolbar: [
