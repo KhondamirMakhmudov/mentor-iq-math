@@ -59,6 +59,10 @@ const Index = () => {
               <p className="text-[15px] font-medium text-center group-hover:text-[#007AFF] transition-all duration-300">
                 {get(item, "name")}
               </p>
+
+              <p className="text-sm text-center group-hover:text-[#007AFF]">
+                {get(item, "class_name")}
+              </p>
             </div>
           ))}
         </div>

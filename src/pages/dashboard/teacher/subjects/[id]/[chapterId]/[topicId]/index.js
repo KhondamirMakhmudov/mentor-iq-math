@@ -97,9 +97,8 @@ const Index = () => {
     formData.append("topic", topicId);
     formData.append("question_text", questionText);
     formData.append("question_type", questionType);
-    formData.append("correct_answer", correctAnswer);
+    formData.append("correct_text_answer", correctAnswer);
     formData.append("level", questionLevel);
-    formData.append("choices", JSON.stringify(choices));
 
     if (questionType === "image_choice") {
       Object.entries(images).forEach(([letter, file], index) => {
@@ -108,6 +107,8 @@ const Index = () => {
           formData.append(`images[${index}].image`, file);
         }
       });
+    } else if (questionType === "choice") {
+      formData.append("choices", JSON.stringify(choices));
     }
 
     for (let pair of formData.entries()) {
